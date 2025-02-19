@@ -1,6 +1,6 @@
 <html>
 <body>
-<h2>Hello DevOps! Welcome to Jenkins Training...</h2>
-<p>we are learing Continuous Integreation</p>
+<h2>Hello! Welcome to DevOps Training...</h2>
+<p>It has been very exciting and fun to learn DevOps</p>
 </body>
 </html>
