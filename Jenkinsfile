@@ -1,6 +1,12 @@
 pipeline {
     agent any
-    environment {
+    stages{
+        stage('Build stage'){
+            steps{}
+            echo "Hello Word"
+        }
+    }
+    /*environment {
         scannerHome = tool 'sonar7.0'
     }
 stages{
@@ -58,4 +64,4 @@ stage("UploadArtifact") {
             }
         }
 }
-}
+}*/
