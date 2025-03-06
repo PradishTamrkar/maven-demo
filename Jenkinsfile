@@ -72,4 +72,30 @@ pipeline {
             }
         }
     }
+    post {
+         always {
+            echo'Job ran completely'
+            mail to: 'tmkr.pradish@gmail.com',
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) status",
+            body: "Please go to ${BUILD_URL} and verify the build"
+         }
+         success {
+            echo 'Job succeed'
+            mail bcc: '', body: """Hi Team,
+            Build #$BUILD_NUMBER is successful, please go through the url
+            $BUILD_URL
+            and verify the details.
+            Regards,
+            DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'tmkr.pradish@gmail.com'
+         }
+         failure {
+            echo 'job failed'
+                mail bcc: '', body: """Hi Team,
+                Build #$BUILD_NUMBER is unsuccessful, please go through the url
+                $BUILD_URL
+                and verify the details.
+                Regards,
+                DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'tmkr.pradish@gmail.com'
+         }
+    }
 }
