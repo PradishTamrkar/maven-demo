@@ -19,7 +19,7 @@ pipeline {
         }
 
         stage('Create Docker Image') {
-            agent { label 'slave-node11' }  // Corrected agent syntax
+            agent { label 'slave-node1' }  // Corrected agent syntax
             steps {
                 copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: specific(env.BUILD_NUMBER)
                 echo "Creating Docker Image"
