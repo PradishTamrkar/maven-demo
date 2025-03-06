@@ -42,6 +42,34 @@ pipeline {
                 }
             }
         }
-        
+        stage('Deploy to Development Env') {
+            agent {
+                label 'slave-node1'
+            }
+            steps {
+                echo "Running app on development env"
+                sh '''
+                docker stop tomcatInstanceDev || true
+                docker rm tomcatInstanceDev || true
+                docker run -itd --name tomcatInstanceDev -p 8082:8080 $dockerImage:$BUILD_NUMBER 
+                sh '''
+            }
+        }
+        stage('Deploy Production Environment') {
+            agent {
+                label 'slave-node1'
+            }
+            steps {
+                timeout(time:1, unit:'DAYS'){
+                input message:'Approve PRODUCTION Deployment?'
+                }
+                echo "Running app on Prod env"
+                sh '''
+                docker stop tomcatInstanceProd || true
+                docker rm tomcatInstanceProd || true
+                docker run -itd --name tomcatInstanceProd -p 8083:8080 $dockerImage:$BUILD_NUMBER
+                '''
+            }
+        }
     }
 }
