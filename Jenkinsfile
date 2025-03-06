@@ -6,6 +6,9 @@ pipeline {
 
     stages{
         stage('Build Java App'){
+             agent(
+                label 'slave-node1'
+            )
             steps{
             sh 'mvn -f pom.xml clean package'
             }
@@ -17,6 +20,9 @@ pipeline {
             }
         }
         stage('Create Docker Image'){
+             agent(
+                label 'slave-node1'
+            )
             steps{
             copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: specific(env.BUILD_NUMBER)
             echo "Creating Docker Image"
@@ -25,6 +31,9 @@ pipeline {
             }
         }
         stage('Tag and Push Image'){
+             agent(
+                label 'slave-node1'
+            )
             steps{
             withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']){
                 sh '''
