@@ -28,11 +28,12 @@ pipeline {
             }
         }
 
-        stage('Tricy scan for Docker Image'
-        steps{
-             sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed $dockerImage:$BUILD_NUMBER'
-        }
-        ) //trivy for integrating and scanning
+        stage('Trivy scan for Docker Image'){
+            agent { label 'slave-node1' } 
+            steps{
+                    sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed $dockerImage:$BUILD_NUMBER'
+            }   
+        }//trivy for integrating and scanning
         stage('Tag and Push Image') {
             agent { label 'slave-node1' }  
             steps {
